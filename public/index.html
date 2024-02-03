@@ -1,0 +1,80 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OAuth Preferences</title>
+</head>
+
+<body>
+  <h1>Favourite Genres</h1>
+  <form id="preferencesForm">
+    <ul>
+      <li>
+        <label for="genre1">Technology</label>
+        <input type="checkbox" id="genre1" name="favoriteGenres" value="Technology">
+      </li>
+      <li>
+        <label for="genre2">Food</label>
+        <input type="checkbox" id="genre2" name="favoriteGenres" value="Food">
+      </li>
+      <li>
+        <label for="genre3">Music</label>
+        <input type="checkbox" id="genre3" name="favoriteGenres" value="Music">
+      </li>
+      <li>
+        <label for="genre3">Travel</label>
+        <input type="checkbox" id="genre4" name="favoriteGenres" value="Travel">
+      </li>
+
+      <li>
+        <label for="genre3">Health</label>
+        <input type="checkbox" id="genre5" name="favoriteGenres" value="Health">
+      </li>
+      <li>
+        <label for="genre3">Movies</label>
+        <input type="checkbox" id="genre6" name="favoriteGenres" value="Movies">
+      </li>
+      <li>
+        <label for="genre3">Art</label>
+        <input type="checkbox" id="genre7" name="favoriteGenres" value="Art">
+      </li>
+      <!-- Add more checkboxes for other genres -->
+
+    </ul>
+
+    <button type="button" onclick="updatePreferences()">Update Preferences</button>
+  </form>
+
+  <script>
+    async function updatePreferences() {
+      const checkboxes = document.querySelectorAll('input[name="favoriteGenres"]:checked');
+      const selectedGenres = Array.from(checkboxes).map(checkbox => checkbox.value);
+
+      console.log('Selected Genres:', selectedGenres);
+
+      try {
+        const response = await fetch('/api/update-preferences', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ favoriteGenres: selectedGenres }),
+        });
+        
+        if (response.ok) {
+          alert('Preferences updated successfully!');
+        } else {
+          alert('Failed to update preferences.');
+        }
+      } catch (error) {
+        console.error('Error updating preferences:', error);
+        alert('Error updating preferences. Please try again.');
+      }
+    }
+  </script>
+</body>
+
+</html>
